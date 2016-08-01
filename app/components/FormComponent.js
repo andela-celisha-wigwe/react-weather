@@ -1,5 +1,4 @@
 var React = require('react');
-
 var FormComponent = React.createClass({
 
 	getInitialState() {
@@ -8,12 +7,20 @@ var FormComponent = React.createClass({
 	    };
 	},
 
+	contextTypes: {
+		router: React.PropTypes.object.isRequired
+	},
+
 	componentDidMount() {
 	      
 	},
 
 	handleSubmitSearch(e) {
 		e.preventDefault();
+		this.context.router.push({
+			pathname: '/forecast/' + this.state.query,
+		});
+
 		// POST THE STRING TO THE WEATHER API TO GET THE DETAILS OF THE WEATHER AT THE QUERIES CITY.
 	},
 
