@@ -1,4 +1,5 @@
 var React = require('react');
+import {Link} from 'react-router';
 
 var DetailComponent = React.createClass({
 
@@ -6,9 +7,14 @@ var DetailComponent = React.createClass({
 	    info: React.PropTypes.object.isRequired
 	},
 
+	contextTypes: {
+		router: React.PropTypes.object.isRequired
+	},
+
 	getInitialState() {
 	    return {
-	    	date: null
+	    	date: null,
+	    	full: false
 	    };
 	},
 
@@ -25,11 +31,10 @@ var DetailComponent = React.createClass({
 	},
 
 	render: function() {
-		var {clouds, main, rain, dt, dt_txt, sys, weather, wind} = this.props.info;
+		var {dt_txt, weather} = this.props.info;
 		var weather = weather[0];
-		console.log(this.props.info)
 		return (
-			<div className="col-sm-6 col-md-4">
+			<div className="col-sm-6 col-md-4" onClick={this.props.handleShowFull}>
 				<div className="thumbnail detail">
 					<img src={"http://openweathermap.org/img/w/" + weather.icon + ".png"} alt={weather.description} title={weather.description} className="center-block img-responsive" />
 					<div className="caption">
@@ -38,6 +43,7 @@ var DetailComponent = React.createClass({
 					</div>
 				</div>
 			</div>
+
 		);
 	}
 

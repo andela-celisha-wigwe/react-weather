@@ -2,3 +2,29 @@
 	background: #e2e2e2;
     cursor: pointer;
 }
+
+.full-details-head {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin: 35px;
+}
+
+.full-details-bottom {
+	font-size: 34px;
+    font-weight: 100;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.full-details-head img {
+	height: 130px;
+}
+
+.full-details-head h2 {
+	font-size: 30px;
+    color: #333;
+    font-weight: 100;
+}

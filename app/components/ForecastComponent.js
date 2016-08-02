@@ -3,43 +3,6 @@ var axios = require('axios');
 var DetailComponent = require('../components/DetailComponent');
 require('../styles.css');
 
-Date.prototype.names = {
-
-	months: [
-	    "January", "February", "March", "April",
-	    "May", "June", "July", "August",
-	    "September", "October", "November", "December"
-	],
-
-    days: [
-    	"Sunday", "Monday", "Tuesday", "Wednesday",
-    	"Thursday", "Friday", "Saturday"
-    ]
-};
-
-Date.prototype.monthNames = [
-    "January", "February", "March",
-    "April", "May", "June",
-    "July", "August", "September",
-    "October", "November", "December"
-];
-
-Date.prototype.getMonthName = function() {
-    return this.names.months[this.getMonth()];
-};
-
-Date.prototype.getDayName = function() {
-    return this.names.days[this.getDay()];
-};
-
-Date.prototype.getShortDayName = function () {
-    return this.getDayName().substr(0, 3);
-};
-
-Date.prototype.getShortMonthName = function () {
-    return this.getMonthName().substr(0, 3);
-};
-
 var ForecastComponent = React.createClass({
 
 	contextTypes: {
@@ -72,11 +35,21 @@ var ForecastComponent = React.createClass({
 		})
 	},
 
+	handleShowFull(weather) {
+		this.context.router.push({
+			pathname: '/details/' + this.state.name,
+			state: {
+				info: weather,
+				city: this.state.name
+			}
+		})
+	},
+
 	render: function() {
 		var details = this.state.loading === true
 		? "loading"
 		: this.state.forecast.map( (detail) => {
-			return <DetailComponent location={location} info={detail} key={detail.dt} />
+			return <DetailComponent handleShowFull={(this.handleShowFull).bind(null, detail)} name={this.state.name} country={this.state.country} info={detail} key={detail.dt} />
 		})
 		return (
 			<div className="row details">
