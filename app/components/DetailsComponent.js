@@ -1,12 +1,3 @@
-// Weather
-// Wednesday, Aug 3
-// Lagos
-// broken clouds
-// min temp: 77 degrees
-// max temp: 77 degrees
-// humidity: 100
-
-
 var React = require('react');
 
 var DetailsComponent = React.createClass({
@@ -22,10 +13,12 @@ var DetailsComponent = React.createClass({
 
 	componentWillMount() {
 		var {info, city} = this.props.location.state
-		var {weather, main} = info
+		var {weather, main, dt_txt} = info
+		var date = new Date(dt_txt)
 		this.setState({
 	    	weather: weather,
 	    	main: main,
+	    	date: date,
 	    	city: city
 	    })  
 	},
@@ -37,7 +30,7 @@ var DetailsComponent = React.createClass({
 			<div>
 				<div className="full-details-head">
 					<img src={"http://openweathermap.org/img/w/" + weather.icon + ".png"} alt={weather.description} title={weather.description} className="center-block img-responsive" />
-					<h2></h2>
+					<h2>{this.state.date.getDayName()}, {this.state.date.getMonthName()} {this.state.date.getDay()}, {this.state.date.getFullYear()}.</h2>
 				</div>
 				<div className="full-details-bottom">
 					<p>{city}</p>

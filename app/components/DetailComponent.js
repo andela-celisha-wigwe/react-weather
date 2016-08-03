@@ -31,17 +31,17 @@ var DetailComponent = React.createClass({
 	},
 
 	render: function() {
-		var {dt_txt, weather} = this.props.info;
+		var {dt_txt, weather, city} = this.props.info;
 		var weather = weather[0];
 		return (
-			<div className="col-sm-6 col-md-4" onClick={this.props.handleShowFull}>
-				<div className="thumbnail detail">
-					<img src={"http://openweathermap.org/img/w/" + weather.icon + ".png"} alt={weather.description} title={weather.description} className="center-block img-responsive" />
-					<div className="caption">
-						{this.state.day}, {this.state.month} {this.state.date.getDay()}, {this.state.date.getFullYear()}
-						<p>{weather.description}</p>
-					</div>
-				</div>
+			<div className="col-sm-6 col-md-3 each-detail" onClick={this.props.handleShowFull}>
+				<h1>{city}</h1>
+				<img src={"http://openweathermap.org/img/w/" + weather.icon + ".png"} alt={weather.description} title={weather.description} className="center-block img-responsive" />
+
+				<h2>
+					{this.state.day}, {this.state.month} {this.state.date.getDay()}.
+					<p>{weather.description}</p>
+				</h2>
 			</div>
 
 		);

@@ -9924,7 +9924,8 @@
 					loading: false,
 					forecast: list,
 					country: city.country,
-					name: city.name
+					name: city.name,
+					city: city
 
 				});
 			}.bind(this)).catch(function (err) {});
@@ -9948,8 +9949,22 @@
 			});
 			return React.createElement(
 				'div',
-				{ className: 'row details' },
-				details
+				{ className: 'details' },
+				React.createElement(
+					'h1',
+					{ className: 'forecast-header' },
+					this.state.name
+				),
+				React.createElement(
+					'p',
+					{ className: 'select-date' },
+					'Select a date'
+				),
+				React.createElement(
+					'div',
+					{ className: 'row brief-details' },
+					details
+				)
 			);
 		}
 
@@ -11340,30 +11355,31 @@
 			var _props$info = this.props.info;
 			var dt_txt = _props$info.dt_txt;
 			var weather = _props$info.weather;
+			var city = _props$info.city;
 
 			var weather = weather[0];
 			return React.createElement(
 				'div',
-				{ className: 'col-sm-6 col-md-4', onClick: this.props.handleShowFull },
+				{ className: 'col-sm-6 col-md-3 each-detail', onClick: this.props.handleShowFull },
 				React.createElement(
-					'div',
-					{ className: 'thumbnail detail' },
-					React.createElement('img', { src: "http://openweathermap.org/img/w/" + weather.icon + ".png", alt: weather.description, title: weather.description, className: 'center-block img-responsive' }),
+					'h1',
+					null,
+					city
+				),
+				React.createElement('img', { src: "http://openweathermap.org/img/w/" + weather.icon + ".png", alt: weather.description, title: weather.description, className: 'center-block img-responsive' }),
+				React.createElement(
+					'h2',
+					null,
+					this.state.day,
+					', ',
+					this.state.month,
+					' ',
+					this.state.date.getDay(),
+					'.',
 					React.createElement(
-						'div',
-						{ className: 'caption' },
-						this.state.day,
-						', ',
-						this.state.month,
-						' ',
-						this.state.date.getDay(),
-						', ',
-						this.state.date.getFullYear(),
-						React.createElement(
-							'p',
-							null,
-							weather.description
-						)
+						'p',
+						null,
+						weather.description
 					)
 				)
 			);
@@ -11408,7 +11424,7 @@
 
 
 	// module
-	exports.push([module.id, ".detail:hover {\n\tbackground: #e2e2e2;\n    cursor: pointer;\n}\n\n.full-details-head {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tflex-direction: column;\n\tmargin: 35px;\n}\n\n.full-details-bottom {\n\tfont-size: 34px;\n    font-weight: 100;\n    max-width: 400px;\n    margin: 0 auto;\n    text-align: center;\n}\n\n.full-details-head img {\n\theight: 130px;\n}\n\n.full-details-head h2 {\n\tfont-size: 30px;\n    color: #333;\n    font-weight: 100;\n}", ""]);
+	exports.push([module.id, ".each-detail {\n\tdisplay: flex;\n    align-items: center;\n    justify-content: center;\n    flex-direction: column;\n    text-align: center;\n    border: solid 1px #f2f2f2;\n}\n\n.each-detail img {\n\theight: 130px;\n}\n\n.each-detail h2 {\n\tfont-size: 25px;\n    color: #333;\n    font-weight: 100;\n}\n\n.each-detail p {\n\tfont-size: 15px;\n    font-weight: bold;\n    font-style: italic;\n}\n\n.each-detail:hover {\n\tbackground: #e2e2e2;\n    cursor: pointer;\n    text-align: center;\n}\n\n.full-details-head {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tflex-direction: column;\n\tmargin: 35px;\n}\n\n.brief-details {\n\tdisplay: flex;\n    justify-content: space-between;\n    align-items: center;\n    flex-direction: row;\n    flex-wrap: wrap;\n    max-width: 1200px;\n    margin: 50px auto;\n}\n\n.full-details-bottom {\n\tfont-size: 34px;\n    font-weight: 100;\n    max-width: 400px;\n    margin: 0 auto;\n    text-align: center;\n}\n\n.full-details-head img {\n\theight: 130px;\n}\n\n.full-details-head h2 {\n\tfont-size: 30px;\n    color: #333;\n    font-weight: 100;\n}\n\n.forecast-header {\n\tfont-size: 65px;\n    color: #333;\n    font-weight: 100;\n    text-align: center;\n    margin-top: 50px;\n    margin-bottom: 30px;\n}\n\n.select-date {\n\tfont-size: 30px;\n    color: #333;\n    font-weight: 100;\n    text-align: center;\n}", ""]);
 
 	// exports
 
@@ -11727,15 +11743,6 @@
 
 	'use strict';
 
-	// Weather
-	// Wednesday, Aug 3
-	// Lagos
-	// broken clouds
-	// min temp: 77 degrees
-	// max temp: 77 degrees
-	// humidity: 100
-
-
 	var React = __webpack_require__(3);
 
 	var DetailsComponent = React.createClass({
@@ -11754,10 +11761,13 @@
 			var city = _props$location$state.city;
 			var weather = info.weather;
 			var main = info.main;
+			var dt_txt = info.dt_txt;
 
+			var date = new Date(dt_txt);
 			this.setState({
 				weather: weather,
 				main: main,
+				date: date,
 				city: city
 			});
 		},
@@ -11777,7 +11787,18 @@
 					'div',
 					{ className: 'full-details-head' },
 					React.createElement('img', { src: "http://openweathermap.org/img/w/" + weather.icon + ".png", alt: weather.description, title: weather.description, className: 'center-block img-responsive' }),
-					React.createElement('h2', null)
+					React.createElement(
+						'h2',
+						null,
+						this.state.date.getDayName(),
+						', ',
+						this.state.date.getMonthName(),
+						' ',
+						this.state.date.getDay(),
+						', ',
+						this.state.date.getFullYear(),
+						'.'
+					)
 				),
 				React.createElement(
 					'div',

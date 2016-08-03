@@ -27,7 +27,8 @@ var ForecastComponent = React.createClass({
 				loading: false,
 				forecast: list,
 				country: city.country,
-				name: city.name
+				name: city.name,
+				city: city
 
 			})
 		}).bind(this)).catch( (err) => {
@@ -52,8 +53,12 @@ var ForecastComponent = React.createClass({
 			return <DetailComponent handleShowFull={(this.handleShowFull).bind(null, detail)} name={this.state.name} country={this.state.country} info={detail} key={detail.dt} />
 		})
 		return (
-			<div className="row details">
-				{details}
+			<div className="details">
+				<h1 className="forecast-header">{this.state.name}</h1>
+				<p className="select-date">Select a date</p>
+				<div className="row brief-details">
+					{details}
+				</div>
 			</div>
 		);
 	}
