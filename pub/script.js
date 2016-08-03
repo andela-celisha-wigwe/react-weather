@@ -110,9 +110,9 @@
 
 	var _MainComponent2 = _interopRequireDefault(_MainComponent);
 
-	var _FormComponent = __webpack_require__(101);
+	var _HomeComponent = __webpack_require__(273);
 
-	var _FormComponent2 = _interopRequireDefault(_FormComponent);
+	var _HomeComponent2 = _interopRequireDefault(_HomeComponent);
 
 	var _ForecastComponent = __webpack_require__(102);
 
@@ -130,7 +130,7 @@
 		_react2.default.createElement(
 			_reactRouter.Route,
 			{ path: '/', component: _MainComponent2.default },
-			_react2.default.createElement(_reactRouter.IndexRoute, { component: _FormComponent2.default }),
+			_react2.default.createElement(_reactRouter.IndexRoute, { component: _HomeComponent2.default }),
 			_react2.default.createElement(_reactRouter.Route, { path: '/forecast/(:location)', component: _ForecastComponent2.default }),
 			_react2.default.createElement(_reactRouter.Route, { name: 'full_details', path: '/details/(:location)', component: _DetailsComponent2.default })
 		)
@@ -9801,6 +9801,7 @@
 	'use strict';
 
 	var React = __webpack_require__(3);
+	var NavComponent = __webpack_require__(271);
 
 	var MainComponent = React.createClass({
 		displayName: 'MainComponent',
@@ -9809,7 +9810,8 @@
 		render: function render() {
 			return React.createElement(
 				'div',
-				null,
+				{ className: 'main-component' },
+				React.createElement(NavComponent, null),
 				this.props.children
 			);
 		}
@@ -9824,7 +9826,17 @@
 
 	'use strict';
 
+	var _UIComponents = __webpack_require__(272);
+
+	var _UIComponents2 = _interopRequireDefault(_UIComponents);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var React = __webpack_require__(3);
+	var ButtonComponent = _UIComponents2.default.ButtonComponent;
+	var TextComponent = _UIComponents2.default.TextComponent;
+
+
 	var FormComponent = React.createClass({
 		displayName: 'FormComponent',
 		getInitialState: function getInitialState() {
@@ -9855,26 +9867,14 @@
 
 		render: function render() {
 			return React.createElement(
-				'div',
-				{ className: 'col-sm-12 text-center' },
+				'form',
+				{ className: 'navbar-form navbar-right', onSubmit: this.handleSubmitSearch, role: 'search' },
 				React.createElement(
-					'form',
-					{ className: 'form-inline', onSubmit: this.handleSubmitSearch },
-					React.createElement(
-						'div',
-						{ className: 'form-group' },
-						React.createElement('input', { onChange: this.updateSearch, type: 'search', className: 'form-control', placeholder: 'France, Lagos, India' })
-					),
-					React.createElement(
-						'div',
-						null,
-						React.createElement(
-							'button',
-							{ type: 'submit', className: 'btn btn-success' },
-							'Search'
-						)
-					)
-				)
+					'div',
+					{ className: 'form-group' },
+					React.createElement(TextComponent, { updateSearch: this.updateSearch })
+				),
+				React.createElement(ButtonComponent, null)
 			);
 		}
 
@@ -9906,13 +9906,17 @@
 				loading: true,
 				forecast: [],
 				country: '',
+				error: false,
 				name: ''
 			};
 		},
-		componentWillMount: function componentWillMount() {
-			var _this = this;
+		componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+			var location = nextProps.params.location;
 
-			var location = this.props.params.location;
+			this.getData(location);
+		},
+		getData: function getData(location) {
+			var _this = this;
 
 			var endpoint = 'http://api.openweathermap.org/data/2.5/forecast?q=' + location + ',us&mode=json&appid=cf13f14bc03c9b0f73ff11397850293b';
 			axios.get(endpoint).then(function (info) {
@@ -9925,10 +9929,21 @@
 					forecast: list,
 					country: city.country,
 					name: city.name,
+					error: false,
 					city: city
 
 				});
-			}.bind(this)).catch(function (err) {});
+			}.bind(this)).catch(function (err) {
+				_this.setState({
+					error: true,
+					name: location
+				});
+			}.bind(this));
+		},
+		componentWillMount: function componentWillMount() {
+			var location = this.props.params.location;
+
+			this.getData(location);
 		},
 		handleShowFull: function handleShowFull(weather) {
 			this.context.router.push({
@@ -9944,7 +9959,27 @@
 		render: function render() {
 			var _this2 = this;
 
-			var details = this.state.loading === true ? "loading" : this.state.forecast.map(function (detail) {
+			if (this.state.error) {
+				return React.createElement(
+					'h3',
+					{ className: 'forecast-header' },
+					'There is no weather information about ',
+					React.createElement(
+						'strong',
+						null,
+						React.createElement(
+							'i',
+							null,
+							this.state.name
+						)
+					)
+				);
+			}
+			var details = this.state.loading === true ? React.createElement(
+				'h1',
+				{ className: 'forecast-header' },
+				'Loading...'
+			) : this.state.forecast.map(function (detail) {
 				return React.createElement(DetailComponent, { handleShowFull: _this2.handleShowFull.bind(null, detail), name: _this2.state.name, country: _this2.state.country, info: detail, key: detail.dt });
 			});
 			return React.createElement(
@@ -11424,7 +11459,7 @@
 
 
 	// module
-	exports.push([module.id, ".each-detail {\n\tdisplay: flex;\n    align-items: center;\n    justify-content: center;\n    flex-direction: column;\n    text-align: center;\n    border: solid 1px #f2f2f2;\n}\n\n.each-detail img {\n\theight: 130px;\n}\n\n.each-detail h2 {\n\tfont-size: 25px;\n    color: #333;\n    font-weight: 100;\n}\n\n.each-detail p {\n\tfont-size: 15px;\n    font-weight: bold;\n    font-style: italic;\n}\n\n.each-detail:hover {\n\tbackground: #e2e2e2;\n    cursor: pointer;\n    text-align: center;\n}\n\n.full-details-head {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tflex-direction: column;\n\tmargin: 35px;\n}\n\n.brief-details {\n\tdisplay: flex;\n    justify-content: space-between;\n    align-items: center;\n    flex-direction: row;\n    flex-wrap: wrap;\n    max-width: 1200px;\n    margin: 50px auto;\n}\n\n.full-details-bottom {\n\tfont-size: 34px;\n    font-weight: 100;\n    max-width: 400px;\n    margin: 0 auto;\n    text-align: center;\n}\n\n.full-details-head img {\n\theight: 130px;\n}\n\n.full-details-head h2 {\n\tfont-size: 30px;\n    color: #333;\n    font-weight: 100;\n}\n\n.forecast-header {\n\tfont-size: 65px;\n    color: #333;\n    font-weight: 100;\n    text-align: center;\n    margin-top: 50px;\n    margin-bottom: 30px;\n}\n\n.select-date {\n\tfont-size: 30px;\n    color: #333;\n    font-weight: 100;\n    text-align: center;\n}", ""]);
+	exports.push([module.id, ".each-detail {\n\tdisplay: flex;\n    align-items: center;\n    justify-content: center;\n    flex-direction: column;\n    text-align: center;\n    border: solid 1px #f2f2f2;\n}\n\n.navbar-brand {\n\tcolor: #e4e4e4 !important;\n}\n\n.main-component {\n\twidth: 100%;\n    height: 92%;\n}\n\nbody,\nhtml,\n#app {\n\twidth: 100%;\n    height: 100%;\n    margin: 0;\n    padding: 0;\n}\n\n.navbar {\n\tbackground-color: #0e3f34;\n    border-color: #ffffff;\n    margin: 0px;\n}\n\n.each-detail img {\n\theight: 130px;\n}\n\n.each-detail h2 {\n\tfont-size: 25px;\n    color: #333;\n    font-weight: 100;\n}\n\n.navform form {\n\tmargin: 0px;\n}\n\n.each-detail p {\n\tfont-size: 15px;\n    font-weight: bold;\n    font-style: italic;\n}\n\n.home .form {\n\tdisplay: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    max-width: 300px;\n}\n\n.home .header {\n\tfont-size: 45px;\n    color: #fff;\n    font-weight: 100;\n}\n\n.home {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    height: 100%;\n    width: 100%;\n}\n\n.each-detail:hover {\n\tbackground: #e2e2e2;\n    cursor: pointer;\n    text-align: center;\n}\n\n.full-details-head {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\tflex-direction: column;\n\tmargin: 35px;\n}\n\n.brief-details {\n\tdisplay: flex;\n    justify-content: space-between;\n    align-items: center;\n    flex-direction: row;\n    flex-wrap: wrap;\n    max-width: 1200px;\n    margin: 50px auto;\n}\n\n.full-details-bottom {\n\tfont-size: 34px;\n    font-weight: 100;\n    max-width: 400px;\n    margin: 0 auto;\n    text-align: center;\n}\n\n.full-details-head img {\n\theight: 130px;\n}\n\n.full-details-head h2 {\n\tfont-size: 30px;\n    color: #333;\n    font-weight: 100;\n}\n\n.forecast-header {\n\tfont-size: 65px;\n    color: #333;\n    font-weight: 100;\n    text-align: center;\n    margin-top: 50px;\n    margin-bottom: 30px;\n}\n\n.select-date,\n.no-info {\n\tfont-size: 30px;\n    color: #333;\n    font-weight: 100;\n    text-align: center;\n}", ""]);
 
 	// exports
 
@@ -29204,6 +29239,128 @@
 	var ReactMount = __webpack_require__(263);
 
 	module.exports = ReactMount.renderSubtreeIntoContainer;
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(3);
+	var FormComponent = __webpack_require__(101);
+
+	var NavComponent = React.createClass({
+		displayName: 'NavComponent',
+
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'navbar navbar-default navbar-static-top' },
+				React.createElement(
+					'div',
+					{ className: 'container' },
+					React.createElement(
+						'div',
+						{ className: 'navbar-header' },
+						React.createElement(
+							'button',
+							{ className: 'navbar-toggle', type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbar-main' },
+							React.createElement('span', { className: 'icon-bar' }),
+							React.createElement('span', { className: 'icon-bar' }),
+							React.createElement('span', { className: 'icon-bar' })
+						),
+						React.createElement(
+							'a',
+							{ className: 'navbar-brand', href: '#' },
+							'WeatherApp'
+						)
+					),
+					React.createElement(
+						'center',
+						null,
+						React.createElement(
+							'div',
+							{ className: 'navbar-collapse collapse navform', id: 'navbar-main' },
+							React.createElement(FormComponent, null)
+						)
+					)
+				)
+			);
+		}
+
+	});
+
+	module.exports = NavComponent;
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(3);
+
+	function TextComponent(props) {
+		return React.createElement("input", { onChange: props.updateSearch, type: "search", className: "form-control", placeholder: "France, Lagos, Ghana" });
+	}
+
+	function ButtonComponent(props) {
+		return React.createElement(
+			"button",
+			{ type: "submit", style: { margin: "10px" }, className: "btn btn-success" },
+			"Search"
+		);
+	}
+
+	module.exports = {
+		TextComponent: TextComponent,
+		ButtonComponent: ButtonComponent
+	};
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _FormComponent = __webpack_require__(101);
+
+	var _FormComponent2 = _interopRequireDefault(_FormComponent);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var React = __webpack_require__(3);
+
+
+	var HomeComponent = React.createClass({
+		displayName: 'HomeComponent',
+
+
+		render: function render() {
+			var style = {
+				backgroundSize: 'cover',
+				backgroundImage: "url('app/img/pattern.svg')"
+			};
+			return React.createElement(
+				'div',
+				{ className: 'home', style: style },
+				React.createElement(
+					'h1',
+					{ className: 'header' },
+					'Enter a City and State'
+				),
+				React.createElement(
+					'div',
+					{ className: 'form' },
+					React.createElement(_FormComponent2.default, null)
+				)
+			);
+		}
+
+	});
+
+	module.exports = HomeComponent;
 
 /***/ }
 /******/ ]);

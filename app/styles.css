@@ -7,6 +7,30 @@
     border: solid 1px #f2f2f2;
 }
 
+.navbar-brand {
+	color: #e4e4e4 !important;
+}
+
+.main-component {
+	width: 100%;
+    height: 92%;
+}
+
+body,
+html,
+#app {
+	width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+	background-color: #0e3f34;
+    border-color: #ffffff;
+    margin: 0px;
+}
+
 .each-detail img {
 	height: 130px;
 }
@@ -17,10 +41,37 @@
     font-weight: 100;
 }
 
+.navform form {
+	margin: 0px;
+}
+
 .each-detail p {
 	font-size: 15px;
     font-weight: bold;
     font-style: italic;
+}
+
+.home .form {
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+}
+
+.home .header {
+	font-size: 45px;
+    color: #fff;
+    font-weight: 100;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 .each-detail:hover {
@@ -74,7 +125,8 @@
     margin-bottom: 30px;
 }
 
-.select-date {
+.select-date,
+.no-info {
 	font-size: 30px;
     color: #333;
     font-weight: 100;
