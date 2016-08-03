@@ -21,7 +21,7 @@ module.exports = {
 
 	output: {
 		filename: "script.js",
-		path: __dirname + "/pub"
+		path: __dirname
 	},
 
 	plugins: [
