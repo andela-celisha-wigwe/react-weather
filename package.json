@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "test",
-    "serve": "webpack-dev-server",
+    "start": "webpack-dev-server",
     "prod": "webpack -p"
   },
   "keywords": [
