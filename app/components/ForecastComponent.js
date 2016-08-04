@@ -25,7 +25,7 @@ var ForecastComponent = React.createClass({
 	},
 
 	getData(location) {
-		const endpoint = 'http://api.openweathermap.org/data/2.5/forecast?q=' + location + ',us&mode=json&appid=cf13f14bc03c9b0f73ff11397850293b'
+		const endpoint = 'http://api.openweathermap.org/data/2.5/forecast?q=' + location + '&mode=json&appid=cf13f14bc03c9b0f73ff11397850293b'
 		axios.get(endpoint).then(((info) => {
 			var {list, city} = info.data;
 			this.setState({

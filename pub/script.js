@@ -10040,7 +10040,7 @@
 		getData: function getData(location) {
 			var _this = this;
 
-			var endpoint = 'http://api.openweathermap.org/data/2.5/forecast?q=' + location + ',us&mode=json&appid=cf13f14bc03c9b0f73ff11397850293b';
+			var endpoint = 'http://api.openweathermap.org/data/2.5/forecast?q=' + location + '&mode=json&appid=cf13f14bc03c9b0f73ff11397850293b';
 			axios.get(endpoint).then(function (info) {
 				var _info$data = info.data;
 				var list = _info$data.list;
