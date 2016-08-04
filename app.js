@@ -14,7 +14,7 @@ var root = __dirname + '/pub';
 if (process.env.PORT) {
 	console.log('-- enforce SSL');
 
-	app.use(enforce.HTTPS({trustProtoHeader: true}));
+	app.use(enforce.HTTP({trustProtoHeader: true}));
 }
 
 app.use(express.static(root));

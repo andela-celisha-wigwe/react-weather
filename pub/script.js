@@ -10056,6 +10056,7 @@
 
 				});
 			}.bind(this)).catch(function (err) {
+				console.log(err);
 				_this.setState({
 					error: true,
 					name: location

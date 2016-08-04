@@ -38,6 +38,7 @@ var ForecastComponent = React.createClass({
 
 			})
 		}).bind(this)).catch( ( (err) => {
+			console.log(err)
 			this.setState({
 				error: true,
 				name: location
