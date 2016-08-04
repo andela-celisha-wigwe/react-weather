@@ -10041,9 +10041,7 @@
 			var _this = this;
 
 			var endpoint = 'http://api.openweathermap.org/data/2.5/forecast?q=' + location + '&mode=json&appid=cf13f14bc03c9b0f73ff11397850293b';
-			console.log(endpoint);
 			axios.get(endpoint).then(function (info) {
-				console.log(info);
 				var _info$data = info.data;
 				var list = _info$data.list;
 				var city = _info$data.city;
@@ -10058,7 +10056,6 @@
 
 				});
 			}.bind(this)).catch(function (err) {
-				console.log(err);
 				_this.setState({
 					error: true,
 					name: location
