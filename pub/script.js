@@ -9982,7 +9982,7 @@
 		render: function render() {
 			var style = {
 				backgroundSize: 'cover',
-				backgroundImage: "url('app/img/pattern.svg')"
+				backgroundImage: "url('/app/img/pattern.svg')"
 			};
 			return React.createElement(
 				'div',

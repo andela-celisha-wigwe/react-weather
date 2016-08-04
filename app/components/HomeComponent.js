@@ -6,7 +6,7 @@ var HomeComponent = React.createClass({
 	render: function() {
 		var style = {
 			backgroundSize: 'cover',
-    		backgroundImage: "url('app/img/pattern.svg')"
+    		backgroundImage: "url('/app/img/pattern.svg')"
 		}
 		return (
 			<div className="home" style={style}>
